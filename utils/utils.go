@@ -7,6 +7,7 @@ import (
 	"nlp-apiserver/logger"
 	"os"
 	"strconv"
+	"time"
 )
 
 const (
@@ -75,4 +76,11 @@ func EnableCors(w *http.ResponseWriter) {
 	(*w).Header().Set("Access-Control-Allow-Credentials", "true")
 	(*w).Header().Set("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT")
 	(*w).Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
+}
+
+// GetMillisTimeFormat YYYYMMDDhhmmsslll
+func GetMillisTimeFormat(t time.Time) string {
+	// Golang timeformat 2006-01-02 15:04:05, Mon Jan 2 15:04:05 -0700 MST 2006
+	timestamp := t.Format("20060102150405")
+	return timestamp + strconv.Itoa(t.Nanosecond()/1000000)
 }
