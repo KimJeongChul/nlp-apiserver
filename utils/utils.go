@@ -2,6 +2,7 @@ package utils
 
 import (
 	"encoding/json"
+	"net"
 	"net/http"
 	"nlp-apiserver/config"
 	"nlp-apiserver/logger"
@@ -83,4 +84,20 @@ func GetMillisTimeFormat(t time.Time) string {
 	// Golang timeformat 2006-01-02 15:04:05, Mon Jan 2 15:04:05 -0700 MST 2006
 	timestamp := t.Format("20060102150405")
 	return timestamp + strconv.Itoa(t.Nanosecond()/1000000)
+}
+
+// GetMacAddress Get MAC address
+func GetMacAddress() ([]string, error) {
+	ifas, err := net.Interfaces()
+	if err != nil {
+		return nil, err
+	}
+	var as []string
+	for _, ifa := range ifas {
+		a := ifa.HardwareAddr.String()
+		if a != "" {
+			as = append(as, a)
+		}
+	}
+	return as, nil
 }
