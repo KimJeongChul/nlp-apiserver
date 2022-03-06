@@ -2,6 +2,7 @@ package utils
 
 import (
 	"encoding/json"
+	"net/http"
 	"nlp-apiserver/config"
 	"nlp-apiserver/logger"
 	"os"
@@ -66,4 +67,12 @@ func osGetEnv(key string) (string, bool) {
 		return "", false
 	}
 	return value, true
+}
+
+// EnableCors
+func EnableCors(w *http.ResponseWriter) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+	(*w).Header().Set("Access-Control-Allow-Credentials", "true")
+	(*w).Header().Set("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT")
+	(*w).Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
 }
