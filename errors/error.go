@@ -28,4 +28,7 @@ const (
 
 	// HTTPS_SERVE_ERR https.ListenAndServeTLS() error
 	HTTPS_SERVE_ERR
+
+	// HTTP_PREPROCESSING_ERR
+	HTTP_PREPROCESSING_ERR
 )
