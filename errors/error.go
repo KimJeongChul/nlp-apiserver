@@ -31,4 +31,13 @@ const (
 
 	// HTTP_PREPROCESSING_ERR
 	HTTP_PREPROCESSING_ERR
+
+	// HTTP_BODY_READ_ERR ioutil.ReadAll() error
+	HTTP_BODY_READ_ERR
+	
+	// JSON_MARSHAL_ERR json.Marshal() error
+	JSON_MARSHAL_ERR
+
+	// JSON_UNMARSHAL_ERR json.Unmarshal() error
+	JSON_UNMARSHAL_ERR
 )
