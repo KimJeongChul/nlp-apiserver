@@ -6,6 +6,10 @@ import (
 	"nlp-apiserver/errors"
 )
 
+const (
+	SUCCESS = "success"
+)
+
 type MsgCommonRes struct {
 	ResultCode int    `json:"result_code"`
 	Result     string `json:"result"`
@@ -34,4 +38,8 @@ type MsgTrainRes struct {
 	TrainId    string `json:"train_id"`
 	ResultCode int    `json:"result_code"`
 	Result     string `json:"result"`
+}
+
+func (mtr MsgTrainRes) generateTrainSuccMsg() []byte {
+	return []byte("{\"resultCode\":200, \"result\":\"success\", \"train_id\":\"" + mtr.TrainId+"\"}")
 }
