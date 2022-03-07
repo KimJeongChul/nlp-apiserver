@@ -29,3 +29,9 @@ func (as *ApiServer) responseErrorMessage(w http.ResponseWriter, cErr *errors.CE
 type MsgTrainReq struct {
 	ModelType *string `json:"model_type"`
 }
+
+type MsgTrainRes struct {
+	TrainId    string `json:"train_id"`
+	ResultCode int    `json:"result_code"`
+	Result     string `json:"result"`
+}
