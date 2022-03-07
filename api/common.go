@@ -16,10 +16,11 @@ import (
 type SessionObject struct {
 	FuncName          string
 	TransactionId     string
+	ApiType           string
 	StartResponseTime time.Time
 }
 
-func (as *ApiServer) APICallProcessing(w *http.ResponseWriter, req *http.Request) (sessionObj *SessionObject, cErr *errors.CError) {
+func (as *ApiServer) APICallProcessing(w *http.ResponseWriter, req *http.Request, apiType string) (sessionObj *SessionObject, cErr *errors.CError) {
 	var err error
 	sessionObj = &SessionObject{}
 
@@ -29,6 +30,7 @@ func (as *ApiServer) APICallProcessing(w *http.ResponseWriter, req *http.Request
 	// Check start response time
 	sessionObj.StartResponseTime = time.Now()
 
+	sessionObj.ApiType = apiType
 	sessionObj.TransactionId, err = as.getUniqueTrxId()
 	if err != nil {
 		cErr = errors.NewCError(errors.HTTP_PREPROCESSING_ERR, "Cannot Create TransactionId")
@@ -53,13 +55,16 @@ func (as *ApiServer) APICallPostprocessing(w http.ResponseWriter, session *Sessi
 	if cErr != nil {
 		logger.LogE(session.FuncName, session.TransactionId, "APICallProcess Err Msg=", cErr.Error())
 		as.responseErrorMessage(w, cErr, errCode)
+
+		responseTime := time.Now().Sub(session.StartResponseTime)
+		logger.LogI(session.FuncName, session.TransactionId, "/" + session.ApiType + " API call finish responseTime=", responseTime)
 	}
 }
 
 // checkValidModelType
 func (as *ApiServer) checkValidModelType(modelType string) (cErr *errors.CError, errCode int) {
 	cErr = nil
-	errCode = 200 
+	errCode = 200
 	if modelType == "" || modelType != "intent" {
 		cErr = errors.NewCError(errors.BAD_REQUEST_PARAMETER_ERR, "model_type parameter is not valid")
 		errCode = http.StatusBadRequest
