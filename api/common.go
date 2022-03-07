@@ -48,6 +48,26 @@ func (as *ApiServer) APICallProcessing(w *http.ResponseWriter, req *http.Request
 	return
 }
 
+// APICallPostprocessing
+func (as *ApiServer) APICallPostprocessing(w http.ResponseWriter, session *SessionObject, cErr *errors.CError, errCode int) {
+	if cErr != nil {
+		logger.LogE(session.FuncName, session.TransactionId, "APICallProcess Err Msg=", cErr.Error())
+		as.responseErrorMessage(w, cErr, errCode)
+	}
+}
+
+// checkValidModelType
+func (as *ApiServer) checkValidModelType(modelType string) (cErr *errors.CError, errCode int) {
+	cErr = nil
+	errCode = 200 
+	if modelType == "" || modelType != "intent" {
+		cErr = errors.NewCError(errors.BAD_REQUEST_PARAMETER_ERR, "model_type parameter is not valid")
+		errCode = http.StatusBadRequest
+		return
+	}
+	return
+}
+
 // GetUniqueTrxId Generate UUID
 func (as *ApiServer) getUniqueTrxId() (string, error) {
 	uuidCnt = (uuidCnt + 1) % 10000
