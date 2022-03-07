@@ -7,7 +7,7 @@ import (
 )
 
 type MsgCommonRes struct {
-	ResultCode int    `json:"resultCode"`
+	ResultCode int    `json:"result_code"`
 	Result     string `json:"result"`
 }
 
@@ -16,11 +16,16 @@ func (as *ApiServer) responseErrorMessage(w http.ResponseWriter, cErr *errors.CE
 		ResultCode: errCode,
 		Result:     cErr.Message,
 	}
-	wByte, err :=  json.Marshal(msgCommonRes)
+	wByte, err := json.Marshal(msgCommonRes)
 	if err != nil {
 		cErr, errCode = errors.NewCError(errors.JSON_MARSHAL_ERR, err.Error()), http.StatusInternalServerError
-		message := "{\"resultCode\":500, \"result\":\""+cErr.Error()+"\"}"
+		message := "{\"resultCode\":500, \"result\":\"" + cErr.Error() + "\"}"
 		w.Write([]byte(message))
 	}
 	w.Write(wByte)
+}
+
+// MsgTrainReq /train Request
+type MsgTrainReq struct {
+	ModelType *string `json:"model_type"`
 }
