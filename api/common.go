@@ -1,6 +1,7 @@
 package api
 
 import (
+	"net"
 	"net/http"
 	"nlp-apiserver/errors"
 	"nlp-apiserver/logger"
@@ -17,6 +18,7 @@ type SessionObject struct {
 	FuncName          string
 	TransactionId     string
 	ApiType           string
+	RemoteIP          string
 	StartResponseTime time.Time
 }
 
@@ -25,6 +27,14 @@ func (as *ApiServer) APICallProcessing(w *http.ResponseWriter, req *http.Request
 	var err error
 	sessionObj = &SessionObject{}
 	errCode = 200
+
+	remoteAddr := req.RemoteAddr
+	remoteIP, _, errSplit := net.SplitHostPort(remoteAddr)
+	if errSplit != nil {
+		cErr, errCode = errors.NewCError(errors.NET_SPLIT_HOST_ERR, errSplit.Error()), 500
+		return
+	}
+	sessionObj.RemoteIP = remoteIP
 
 	// Enable CORS
 	utils.EnableCors(w)
