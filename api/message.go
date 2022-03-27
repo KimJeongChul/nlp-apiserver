@@ -9,6 +9,15 @@ type MsgErrorRes struct {
 	ResultMsg  string `json:"resultMsg"`
 }
 
+type MsgSuccessRes struct {
+	ResultCode int    `json:"resultCode"`
+	ResultMsg  string `json:"resultMsg"`
+}
+
+func (msr MsgSuccessRes) generateSuccMsg() []byte {
+	return []byte("{\"resultCode\":200, \"result\":\"success\"}")
+}
+
 type MsgTrainCreateReq struct {
 	ModelType *string `json:"modelType"`
 }
