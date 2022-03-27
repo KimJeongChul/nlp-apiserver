@@ -11,6 +11,21 @@ import (
 	"time"
 )
 
+/*
+	Method: POST
+	Request:
+	 - Content-Type: application/json
+	 - {
+		 "modelType": "intent" or "ner"
+	   }
+	Response:
+	 - Content-Type: application/json
+	 - {
+		  "trainID": "TRAIN-ID(UUID v5)"
+          "resultCode": 200,
+		  "resultMsg":  "success",
+	   }
+*/
 // handleTrainCreate POST /train Generate trainID
 func (as *ApiServer) handleTrainCreate(w http.ResponseWriter, req *http.Request) {
 	session, cErr, resCode := as.APICallProcessing(&w, req, "train")
@@ -102,6 +117,5 @@ func (as *ApiServer) handleTrainCreate(w http.ResponseWriter, req *http.Request)
 	default:
 		cErr, resCode = errors.NewCError(errors.HTTP_INVALID_METHOD_ERR, "Invalid Method"), http.StatusMethodNotAllowed
 		return
-
 	}
 }
