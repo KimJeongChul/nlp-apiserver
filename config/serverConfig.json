@@ -1,4 +1,5 @@
 {
+    "homePath": "./",
     "logPath": "./logs",
     "certPemPath": "./cert/cert.pem",
     "keyPemPath": "./cert/key.pem"
