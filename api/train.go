@@ -114,7 +114,7 @@ func (as *ApiServer) handleTrainCreate(w http.ResponseWriter, req *http.Request)
 
 		// Check response time
 		responseTime := time.Now().Sub(session.StartResponseTime)
-		logger.LogI(session.FuncName, session.TransactionId, "/" + session.ApiType + " API call finish. responseTime=", responseTime)
+		logger.LogI(session.FuncName, session.TransactionId, "/" + session.ApiType + " API call finish. remoteIP=", session.RemoteIP, " responseTime=", responseTime)
 	
 	default:
 		cErr, resCode = errors.NewCError(errors.HTTP_INVALID_METHOD_ERR, "Invalid Method"), http.StatusMethodNotAllowed
@@ -209,7 +209,7 @@ func (as *ApiServer) handleTrainDelete(w http.ResponseWriter, req *http.Request)
 
 		// Check response time
 		responseTime := time.Now().Sub(session.StartResponseTime)
-		logger.LogI(session.FuncName, session.TransactionId, "/" + session.ApiType + " API call finish. responseTime=", responseTime)
+		logger.LogI(session.FuncName, session.TransactionId, "/" + session.ApiType + " API call finish. remoteIP=", session.RemoteIP, " responseTime=", responseTime)
 		
 	default:
 		cErr, resCode = errors.NewCError(errors.HTTP_INVALID_METHOD_ERR, "Invalid Method"), http.StatusMethodNotAllowed
