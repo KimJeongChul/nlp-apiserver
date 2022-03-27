@@ -40,6 +40,7 @@ func NewApiServer(configJson *config.ServerConfigJson) *ApiServer {
 
 	as.router = mux.NewRouter()
 	as.router.HandleFunc("/train", as.handleTrainCreate)
+	as.router.HandleFunc("/train/{trainID}/delete", as.handleTrainDelete)
 
 	return &as
 }
